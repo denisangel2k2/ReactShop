@@ -1,25 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import {Header, Notification} from "./Components/Header";
+import {useFetchProducts} from "./Components/Utils";
+import {Main} from "./Components/Main";
+import {useState} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [api,setApi] = useState('https://dummyjson.com/products/?limit=10');
+    const products=useFetchProducts(api);
+    const [isNotificationVisible,setIsNotificationVisible] = useState(false);
+
+    return (
+        <div id="app">
+            <Notification isNotificationVisible={isNotificationVisible} setIsNotificationVisible={setIsNotificationVisible} message="Added to cart"/>
+            <Header/>
+            <Main products={products} isNotificationVisible={isNotificationVisible} setIsNotificationVisible={setIsNotificationVisible}/>
+        </div>
+    );
 }
 
 export default App;
