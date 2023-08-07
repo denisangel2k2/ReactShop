@@ -61,5 +61,5 @@ export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10
         }
         fetchProducts();
     },[api]);
-    return products;
+    return [products,setProducts];
 }
