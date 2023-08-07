@@ -11,7 +11,6 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
 
     const productId=jsonItem.id;
     useEffect(()=>{
-        console.log(isNotificationVisible);
         return ()=>{
             setTimeout(()=>{
                 setIsNotificationVisible(false);
@@ -55,7 +54,6 @@ export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10
                 const data = await response.json();
                 setProducts(data.products);
             } catch (error) {
-                console.log(error);
                 setProducts([]);
             }
         }
