@@ -44,45 +44,50 @@ function App() {
 function MainPage() {
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
-    const [api, setApi] = useState(`https://dummyjson.com/products/?limit=${itemsPerPage}`);
+    const [api, setApi] = useState(`https://dummyjson.com/products/?limit=100`);
     const [products, setProducts] = useFetchProducts(api);
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [searchText, setSearchText] = useState('');
     const [filteredProducts, setFilteredProducts] = useState(products);
     const [originalProducts, setOriginalProducts] = useState(products);
-    const [currentSkip, setCurrentSkip] = useState(3);
 
 
-    useEffect(() => {
-        setOriginalProducts(products);
-        setFilteredProducts(products);
-    }, [products]);
+    //TODO: Useeffect for fetching, use a state that remembers the skip count and another stat that remembers the length of the current fetched items
+    // when the length modifies and gets to 0 then we need to fetch again
+
+
+    // useEffect(() => {
+    //     setOriginalProducts(products);
+    //     // setFilteredProducts(products);
+    // }, [products]);
 
     // useEffect(() => {
     //     let updatedProducts = originalProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
     //     setFilteredProducts(updatedProducts);
     //
     // }, [originalProducts, searchText, selectedCategory]);
-
-    useEffect(() => {
-        let updatedProducts = originalProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
-        setFilteredProducts(updatedProducts);
-
-    }, [originalProducts, selectedCategory]);
+    //
+    // useEffect(() => {
+    //     let updatedProducts = originalProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
+    //     setFilteredProducts(updatedProducts);
+    //
+    // }, [originalProducts, selectedCategory]);
 
     useEffect(() => {
         let isMounted = true;
-
         async function fetchData() {
             try {
-                const searchedProducts = await getItems(`https://dummyjson.com/products/`);
+                let searchedProducts;
+                if (!localStorage.getItem('products'))
+                    searchedProducts = await getItems(`https://dummyjson.com/products?limit=100`);
+                else searchedProducts = JSON.parse(localStorage.getItem('products'));
+
                 let updatedProducts = searchedProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
                 let index = searchedProducts.findIndex(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
                 const itemFoundOnPage = Math.floor(index / itemsPerPage) + 1;
 
                 if (isMounted) {
-                    setCurrentPage(itemFoundOnPage);
                     setProducts(updatedProducts);
                 }
             } catch (error) {
@@ -112,6 +117,7 @@ function MainPage() {
                                 setCurrentPage={setCurrentPage}
                                 itemsPerPage={itemsPerPage}
                                 searchText={searchText}
+                                setProducts={setProducts}
                 />
                 <Products products={filteredProducts}
                           isNotificationVisible={isNotificationVisible}
