@@ -696,6 +696,36 @@ main {
     border: 1px solid #2df1f1;
 }
 
+.current-page{
+    width: 2rem;
+}
+.pagination-keys{
+    margin: 0 0.5rem;
+}
+#previous-page,#next-page{
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.3s ease-in-out;
+    border-radius: 30px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+}
+
+#items-per-page{
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.3s ease-in-out;
+    border-radius: 30px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+    margin-left: 2rem;
+}
+.pagination-controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
 footer {
     margin: 2rem 0 0 0;
     background-color: #343434;

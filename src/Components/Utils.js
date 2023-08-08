@@ -59,5 +59,7 @@ export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10
         }
         fetchProducts();
     },[api]);
+    if (!localStorage.getItem('products'))
+        localStorage.setItem('products',JSON.stringify(products));
     return [products,setProducts];
 }
