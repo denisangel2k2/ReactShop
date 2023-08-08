@@ -17,34 +17,10 @@ import {
 } from "react-router-dom";
 import {AuthProvider, Login, useAuth} from "./Components/Login";
 import {LandingPage} from "./Components/LandingPage";
-
-let router = createBrowserRouter([
-    {
-        path: "/home",
-        loader: () => ({message: "Hello Data Router!"}),
-        Component() {
-            return <MainPage/>;
-        },
-    },
-    {
-        path: "/",
-        loader: () => ({message: "Hello Data Router!"}),
-        Component() {
-            return <LandingPage/>;
-        }
-    },
-    {
-        path: "/login",
-        loader: () => ({message: "Hello Data Router!"}),
-        Component() {
-            return <Login/>;
-        }
-    }
-]);
-
+import {CartPage} from "./Components/CartPage";
+import {AccountPage} from "./Components/AccountPage";
 
 function App() {
-    // return <RouterProvider router={router} fallbackElement={<p>Loading...</p>}/>;
     return (
         <BrowserRouter>
             <AuthProvider>
@@ -54,9 +30,15 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/cart" element={
                         <ProtectedRoute>
-                            <h1>Cart</h1>
+                            <CartPage/>
                         </ProtectedRoute>
                     }/>
+                    <Route path="/account" element={
+                        <ProtectedRoute>
+                            <AccountPage/>
+                        </ProtectedRoute>
+                    } />
+
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 export function Login() {
     const {login, AUTH_API} = useAuth();
 
+
     async function handleLogin(event) {
         event.preventDefault();
 
@@ -25,7 +26,7 @@ export function Login() {
             const responseData = await response.json();
 
             if (response.ok) {
-                login(responseData.token);
+                login(responseData.token,email);
             } else {
                 alert("Login failed. Please check your credentials.");
             }
@@ -53,11 +54,13 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [authKey, setAuthKey] = useLocalStorage("authKey", null);
+    const [email,setEmail]=useLocalStorage("email",null);
     const navigate = useNavigate();
     const [AUTH_API] = useState("http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login");
 
-    const login = async (data) => {
-        setAuthKey(data);
+    const login = async (token,email) => {
+        setAuthKey(token);
+        setEmail(email);
         console.log("navigating home")
         try {
             navigate("/home");
@@ -68,6 +71,7 @@ export const AuthProvider = ({children}) => {
 
     const logout = () => {
         setAuthKey(null);
+        setEmail(null);
         navigate("/login", {replace: true});
     };
 
@@ -76,7 +80,8 @@ export const AuthProvider = ({children}) => {
             authKey,
             AUTH_API,
             login,
-            logout
+            logout,
+            email
         }),
         [authKey]
     );
