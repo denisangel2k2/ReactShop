@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {Header, Notification} from "./Components/Header";
-import {Button, useFetchProducts} from "./Components/Utils";
+import {Button, CartProvider, useFetchProducts} from "./Components/Utils";
 import {FiltersSection, getItems, LoadMoreComponent, MainPage, Pagination, Products} from "./Components/Main";
 import {useEffect, useMemo, useState} from "react";
 import {
@@ -23,24 +23,28 @@ import {AccountPage} from "./Components/AccountPage";
 function App() {
     return (
         <BrowserRouter>
-            <AuthProvider>
-                <Routes>
-                    <Route path="/home" element={<MainPage/> }/>
-                    <Route path="/" element={<LandingPage/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/cart" element={
-                        <ProtectedRoute>
-                            <CartPage/>
-                        </ProtectedRoute>
-                    }/>
-                    <Route path="/account" element={
-                        <ProtectedRoute>
-                            <AccountPage/>
-                        </ProtectedRoute>
-                    } />
 
-                </Routes>
+            <AuthProvider>
+                <CartProvider>
+                    <Routes>
+                        <Route path="/home" element={<MainPage/>}/>
+                        <Route path="/" element={<LandingPage/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/cart" element={
+                            <ProtectedRoute>
+                                <CartPage/>
+                            </ProtectedRoute>
+                        }/>
+                        <Route path="/account" element={
+                            <ProtectedRoute>
+                                <AccountPage/>
+                            </ProtectedRoute>
+                        }/>
+
+                    </Routes>
+                </CartProvider>
             </AuthProvider>
+
         </BrowserRouter>
     );
 

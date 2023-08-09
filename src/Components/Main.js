@@ -1,4 +1,4 @@
-import {Button, Product, useFetchProducts} from "./Utils";
+import {Button, CartProvider, Product, useFetchProducts} from "./Utils";
 import {useEffect, useState} from "react";
 import {Header, Notification} from "./Header";
 
@@ -300,27 +300,10 @@ export function MainPage() {
     const [filteredProducts, setFilteredProducts] = useState(products);
     const [originalProducts, setOriginalProducts] = useState(products);
 
-
     //TODO: Useeffect for fetching, use a state that remembers the skip count and another stat that remembers the length of the current fetched items
     // when the length modifies and gets to 0 then we need to fetch again
 
 
-    // useEffect(() => {
-    //     setOriginalProducts(products);
-    //     // setFilteredProducts(products);
-    // }, [products]);
-
-    // useEffect(() => {
-    //     let updatedProducts = originalProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
-    //     setFilteredProducts(updatedProducts);
-    //
-    // }, [originalProducts, searchText, selectedCategory]);
-    //
-    // useEffect(() => {
-    //     let updatedProducts = originalProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
-    //     setFilteredProducts(updatedProducts);
-    //
-    // }, [originalProducts, selectedCategory]);
 
     useEffect(() => {
         let isMounted = true;
@@ -354,23 +337,23 @@ export function MainPage() {
 
     return (
         <div id="app">
-            <Notification isNotificationVisible={isNotificationVisible}
-                          setIsNotificationVisible={setIsNotificationVisible}
-                          message="Added to cart"/>
-            <Header/>
-            <main>
-                <FiltersSection setApi={setApi}
-                                setSearchText={setSearchText}
-                                setSelectedCategory={setSelectedCategory}
-                                setCurrentPage={setCurrentPage}
-                                itemsPerPage={itemsPerPage}
-                                searchText={searchText}
-                                setProducts={setProducts}
-                />
-                <Products products={filteredProducts}
-                          isNotificationVisible={isNotificationVisible}
-                          setIsNotificationVisible={setIsNotificationVisible}/>
-            </main>
+                <Notification isNotificationVisible={isNotificationVisible}
+                              setIsNotificationVisible={setIsNotificationVisible}
+                              message="Added to cart"/>
+                <Header/>
+                <main>
+                    <FiltersSection setApi={setApi}
+                                    setSearchText={setSearchText}
+                                    setSelectedCategory={setSelectedCategory}
+                                    setCurrentPage={setCurrentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    searchText={searchText}
+                                    setProducts={setProducts}
+                    />
+                    <Products products={filteredProducts}
+                              isNotificationVisible={isNotificationVisible}
+                              setIsNotificationVisible={setIsNotificationVisible}/>
+                </main>
 
             />
             <Pagination filteredProducts={filteredProducts}

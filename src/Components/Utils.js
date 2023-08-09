@@ -1,4 +1,6 @@
-import {useEffect, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
+import {useAuth} from "./Login";
+import {getCart} from "./CartPage";
 
 export function Button({className, onClick,text}){
     return (
@@ -6,8 +8,12 @@ export function Button({className, onClick,text}){
     );
 }
 
+const cartId="64d35475afd6c";
+
 export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible}){
+    const {authKey}=useAuth();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const {cart,setCart}=useCart();
 
     const productId=jsonItem.id;
     useEffect(()=>{
@@ -18,11 +24,37 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
             },5000);
         };
     },[isNotificationVisible]);
+
+    async function addToCart(productId,quantity=1){
+
+        // setCart([...cart,jsonItem]);
+        // localStorage.setItem('cart',JSON.stringify([...cart,jsonItem]));
+
+        return await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Internship-Auth': authKey
+            },
+            body: JSON.stringify({"products": [{"id": productId, "quantity": quantity}]}),
+        }).then(response => response.json()).then((json) => {
+
+            return json;
+        });
+    }
+
     function handleClick(){
         setIsButtonDisabled(true);
         setIsNotificationVisible(true);
 
+        addToCart(productId).then((json)=>{
+            setCart(json.data);
+            localStorage.setItem('cart',JSON.stringify(json.data));
+        });
+
     }
+
+
     const discountPrice = jsonItem.price * (1 - jsonItem.discountPercentage / 100);
     return (
         <div className="item">
@@ -64,3 +96,38 @@ export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10
 
     return [products,setProducts];
 }
+// Cart context
+const cartContext= createContext();
+export function CartProvider({children}){
+    const [cart,setCart]=useState([]);
+    const {authKey}=useAuth();
+    useEffect(() => {
+        if (!localStorage.getItem('cart')) {
+            console.log('I FETCH');
+            getCart(authKey).then((json) => {
+                setCart(json.products);
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            console.log('HERE');
+            // localStorage.setItem('cart', JSON.stringify(cart))
+            setCart(JSON.parse(localStorage.getItem('cart')));
+        }
+    }, [authKey]);
+
+    // useEffect(() => {
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    // }, [cart]);
+
+
+    return (
+        <cartContext.Provider value={{cart,setCart}}>
+            {children}
+        </cartContext.Provider>
+    );
+}
+
+export function useCart(){
+    return useContext(cartContext);
+}
+//

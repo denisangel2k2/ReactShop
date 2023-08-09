@@ -1,5 +1,6 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import {useCart} from "./Utils";
 
 export function Notification({message, isNotificationVisible, setIsNotificationVisible}) {
     const vizibilitate = isNotificationVisible ? 'visible' : 'hidden';
@@ -14,6 +15,12 @@ export function Notification({message, isNotificationVisible, setIsNotificationV
 }
 
 export function Header() {
+    const {cart} = useCart();
+    const [cartLength, setCartLength] = useState(cart.length);
+
+    useEffect(() => {
+        setCartLength(cart.totalQuantity);
+    }, [cart]);
     return (
         <header>
             <h1>Thrift shop</h1>
@@ -23,11 +30,10 @@ export function Header() {
                 <Link to={"/account"} className={"account-link"}>
                     <div id="account" className="fa-solid fa-user">
                     </div>
-
                 </Link>
 
 
-                <Cart count={3}/>
+                <Cart count={cartLength}/>
 
             </nav>
         </header>
