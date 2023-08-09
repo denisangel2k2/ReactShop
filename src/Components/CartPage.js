@@ -4,12 +4,17 @@ import {useEffect, useState} from "react";
 
 
 export function CartPage(){
+    const {cart}=useCart();
     return (
             <div className="main-content">
                 <div className="main-container">
                         <CartpageProducts/>
                 </div>
                 <div className="checkout-wrapper">
+                    <div className="cartpage-total">
+                        <div class="total-price">Total: ${cart["discountTotal"].toFixed(2)}</div>
+                    </div>
+
                     <button className="checkout-button">Check out</button>
                 </div>
             </div>
