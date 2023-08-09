@@ -12,7 +12,10 @@ export function CartPage(){
                 </div>
                 <div className="checkout-wrapper">
                     <div className="cartpage-total">
-                        <div className="total-price">Total: ${cart["discountTotal"].toFixed(2)}</div>
+                        <div className="total-price">Total: ${
+                            cart["discountTotal"] ?
+                            cart["discountTotal"].toFixed(2) : 0
+                        }</div>
                     </div>
 
                     <button className="checkout-button">Check out</button>
@@ -147,7 +150,10 @@ function CartProduct({jsonItem}){
             <div className="cartpage-product-info">
                 <div className="cartpage-product-name">{jsonItem.title}</div>
                 <div className="cartpage-product-price"
-                     product-id={jsonItem.id}>${Number(jsonItem['discountedPrice']).toFixed(2)}</div>
+                     product-id={jsonItem.id}>${
+
+                    Number(jsonItem['discountedPrice']).toFixed(2)
+                }</div>
                 <div className="cartpage-product-controls">
                     <div className="lower-btn" onClick={handleClickQuantityLower} product-id={jsonItem.id} unselectable="on">&lt;</div>
                     <div className="quantity" product-id={jsonItem.id}>{jsonItem.quantity}</div>
