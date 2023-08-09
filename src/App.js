@@ -19,6 +19,7 @@ import {AuthProvider, Login, useAuth} from "./Components/Login";
 import {LandingPage} from "./Components/LandingPage";
 import {CartPage} from "./Components/CartPage";
 import {AccountPage} from "./Components/AccountPage";
+import {ProductPage} from "./Components/ProductPage";
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                                 <AccountPage/>
                             </ProtectedRoute>
                         }/>
+                        <Route path={"/products/:id"} element={<ProductPage/>}/>
 
                     </Routes>
                 </CartProvider>

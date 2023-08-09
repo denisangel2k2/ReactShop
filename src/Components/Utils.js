@@ -1,6 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useAuth} from "./Login";
 import {getCart} from "./CartPage";
+import {Link} from "react-router-dom";
 
 export function Button({className, onClick,text}){
     return (
@@ -58,9 +59,11 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
     const discountPrice = jsonItem.price * (1 - jsonItem.discountPercentage / 100);
     return (
         <div className="item">
-            <div className="item_thumbnail_container" product-id={jsonItem.id}>
-                <img className="item_thumbnail" src={jsonItem['thumbnail']} alt={jsonItem.title} loading="lazy" />
-            </div>
+            <Link to={`/products/${jsonItem.id}`} className={"item_link"}>
+                <div className="item_thumbnail_container" product-id={jsonItem.id}>
+                    <img className="item_thumbnail" src={jsonItem['thumbnail']} alt={jsonItem.title} loading="lazy" />
+                </div>
+            </Link>
             <div className="item_info_container">
                 <div className="item_main_info">
                     <p className="item_title">{jsonItem.title}</p>

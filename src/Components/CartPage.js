@@ -12,7 +12,7 @@ export function CartPage(){
                 </div>
                 <div className="checkout-wrapper">
                     <div className="cartpage-total">
-                        <div class="total-price">Total: ${cart["discountTotal"].toFixed(2)}</div>
+                        <div className="total-price">Total: ${cart["discountTotal"].toFixed(2)}</div>
                     </div>
 
                     <button className="checkout-button">Check out</button>
