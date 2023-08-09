@@ -3,15 +3,17 @@ import {useAuth} from "./Login";
 import {getCart} from "./CartPage";
 import {Link} from "react-router-dom";
 
-export function Button({className, onClick,text}){
+export function Button({className, onClick,text,isButtonDisabled}) {
     return (
-        <button className={className} onClick={onClick}>{text}</button>
+        <button className={className} onClick={onClick} disabled={isButtonDisabled}>{text}</button>
     );
 }
 
 const cartId="64d35475afd6c";
+// const cartId="64c38597d8f95";
 
 export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible}){
+
     const {authKey}=useAuth();
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
     const {cart,setCart}=useCart();
@@ -47,7 +49,14 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
     function handleClick(){
         setIsButtonDisabled(true);
         setIsNotificationVisible(true);
-
+        if (!authKey)
+        {
+            setIsButtonDisabled(false);
+            setIsNotificationVisible(false);
+            alert("You need to be logged in to add products to cart.");
+            return;
+        }
+        else
         addToCart(productId).then((json)=>{
             setCart(json.data);
             localStorage.setItem('cart',JSON.stringify(json.data));
@@ -73,7 +82,7 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
                 </div>
                 <div className="item_secondary_info">
                     <p className="item_rating">Rating: {jsonItem.rating}/5</p>
-                    <Button className={"add_to_cart_btn"} onClick={handleClick} text={isButtonDisabled ? 'Added' : 'Add'} disabled={isButtonDisabled} />
+                    <Button className={"add_to_cart_btn"} onClick={handleClick} text={isButtonDisabled ? 'Added' : 'Add'} isButtonDisabled={isButtonDisabled}/>
                 </div>
             </div>
         </div>
@@ -106,22 +115,14 @@ export function CartProvider({children}){
     const {authKey}=useAuth();
     useEffect(() => {
         if (!localStorage.getItem('cart')) {
-            console.log('I FETCH');
             getCart(authKey).then((json) => {
                 setCart(json.products);
             });
             localStorage.setItem('cart', JSON.stringify(cart));
         } else {
-            console.log('HERE');
-            // localStorage.setItem('cart', JSON.stringify(cart))
             setCart(JSON.parse(localStorage.getItem('cart')));
         }
     }, [authKey]);
-
-    // useEffect(() => {
-    //     localStorage.setItem('cart', JSON.stringify(cart));
-    // }, [cart]);
-
 
     return (
         <cartContext.Provider value={{cart,setCart}}>

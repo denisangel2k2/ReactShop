@@ -99,7 +99,7 @@ function CartProduct({jsonItem}){
 
     function handleClickQuantityLower() {
         value-=1;
-        debouncedUpdateQuantity(productId, value); // Debounced call
+        debouncedUpdateQuantity(productId, value);
 
     }
 

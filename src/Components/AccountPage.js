@@ -1,11 +1,26 @@
 import {useAuth} from "./Login";
 
 export function AccountPage() {
-    const {authKey, email} = useAuth();
+    const {authKey, email, logout} = useAuth();
+    function handleLogout(){
+        logout();
+    }
     return (
-        <>
-            <p>{authKey}</p>
-            <p>{email}</p>
-        </>
+
+        <div className={"account-main"}>
+            <div className={"account-wrapper"}>
+                <h1>Account page</h1>
+                <div className={"account-item"}>
+                    <div>Your authkey:</div>
+                    <div> {authKey}</div>
+                </div>
+                <div className={"account-item"}>
+                    <div>Your email:</div>
+                    <div> {email}</div>
+                </div>
+            </div>
+            <button className={"logout-btn"} onClick={handleLogout}>Logout</button>
+        </div>
+
     );
 }

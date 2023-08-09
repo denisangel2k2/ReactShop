@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {useCart} from "./Utils";
+import {useAuth} from "./Login";
 
 export function Notification({message, isNotificationVisible, setIsNotificationVisible}) {
     const vizibilitate = isNotificationVisible ? 'visible' : 'hidden';
@@ -17,9 +18,10 @@ export function Notification({message, isNotificationVisible, setIsNotificationV
 export function Header() {
     const {cart} = useCart();
     const [cartLength, setCartLength] = useState(cart.length);
-
+    const {authKey} = useAuth();
     useEffect(() => {
-        setCartLength(cart.totalQuantity);
+        if (authKey)
+            setCartLength(cart.totalQuantity);
     }, [cart]);
     return (
         <header>
@@ -40,19 +42,67 @@ export function Header() {
     );
 }
 
+function CartProduct({jsonItem}) {
+    const discountedPrice = jsonItem.price * (1 - jsonItem.discountPercentage / 100);
+    const quantity = jsonItem.quantity ? jsonItem.quantity : 1;
+    return (
+        <div className={"cart-item"}>
+            <div className="cart-item-thumbnail-container">
+                <img src={jsonItem.thumbnail} alt="item thumbnail" className="cart-item-thumbnail"/>
+            </div>
+            <div className="cart-item-info-container">
+            <span className="cart-title-wrapper">
+                <span className="cart-item-title">  {jsonItem.title}</span>
+                <span className="cart-item-count" product_id={jsonItem.id}> x{quantity}</span>
+            </span>
+                <p className="cart-item-price"><s>${jsonItem.price * quantity}</s> ${discountedPrice.toFixed(2)}</p>
+            </div>
+
+        </div>
+    );
+}
+
+function CartItems({cart, onMouseOver}) {
+    return (
+        <div className="cart-products" onMouseOver={onMouseOver}>
+            {cart['products'] ? (
+                cart.products.map((item) => {
+                    console.log(cart.products.length);
+                    return (
+                        <CartProduct jsonItem={item}/>
+                    );
+                })
+            ) : (
+                <p>Loading cart...</p>
+            )
+            }
+            <div className="cart-total">Total: ${
+                cart['discountTotal'] ?
+                    (cart['discountTotal'].toFixed(2))
+                    : (0)
+            }</div>
+        </div>
+    );
+}
+
 function Cart({count}) {
+    const {cart} = useCart();
+
     return (
         <>
-
             <Link to={"/cart"} className={"cart-link"}>
-                <div id="cart" className="fa-solid fa-cart-shopping">
+                <div id="cart" className="fa-solid fa-cart-shopping" onMouseOver={(event) => {
+                    document.querySelector('#cart-items').style.display = 'flex';
+                }}>
                     <span id="cart-count">{count}</span>
                 </div>
             </Link>
-            <div id="cart-items">
-                <div className="cart-products">
-                    <div className="cart-total"></div>
-                </div>
+            <div id="cart-items" onMouseOut={() => {
+                document.querySelector('#cart-items').style.display = 'none';
+            }}>
+                <CartItems cart={cart} onMouseOver={() =>
+                    document.querySelector('#cart-items').style.display = 'flex'
+                }/>
             </div>
         </>
     );

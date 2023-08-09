@@ -81,7 +81,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
 }
-test2@mail.com
+
 nav{
     display: flex;
 
@@ -96,6 +96,54 @@ nav{
 #account:hover{
     transform: scale(1.1);
     transition: all 0.3s ease-in-out;
+}
+
+.account-main{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 30px;
+    padding: 1rem 2rem 6rem 2rem;
+    box-shadow: 0px 0px 32px 7px rgba(0,0,0,0.57);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.account-main h1{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.account-item{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+.account-item > div:nth-child(2){
+    margin-top: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+
+.logout-btn{
+    margin-top: 2rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+}
+
+.logout-btn:hover{
+    transform: scale(1.05);
 }
 .landing-container {
     position: relative;
@@ -319,7 +367,6 @@ nav{
     gap: 1rem;
     flex-direction: column;
     margin-left: 10px;
-    overflow-y: scroll;
     white-space: nowrap;
     background-color: white;
 }
