@@ -20,34 +20,37 @@ import {LandingPage} from "./Components/LandingPage";
 import {CartPage} from "./Components/CartPage";
 import {AccountPage} from "./Components/AccountPage";
 import {ProductPage} from "./Components/ProductPage";
-
+import {Provider} from "react-redux";
+import {store} from "./redux/store";
 function App() {
     return (
-        <BrowserRouter>
 
-            <AuthProvider>
-                <CartProvider>
-                    <Routes>
-                        <Route path="/home" element={<MainPage/>}/>
-                        <Route path="/" element={<LandingPage/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/cart" element={
-                            <ProtectedRoute>
-                                <CartPage/>
-                            </ProtectedRoute>
-                        }/>
-                        <Route path="/account" element={
-                            <ProtectedRoute>
-                                <AccountPage/>
-                            </ProtectedRoute>
-                        }/>
-                        <Route path={"/products/:id"} element={<ProductPage/>}/>
+            <BrowserRouter>
+                <Provider store={store}>
+                <AuthProvider>
+                    <CartProvider>
+                        <Routes>
+                            <Route path="/home" element={<MainPage/>}/>
+                            <Route path="/" element={<LandingPage/>}/>
+                            <Route path="/login" element={<Login/>}/>
+                            <Route path="/cart" element={
+                                <ProtectedRoute>
+                                    <CartPage/>
+                                </ProtectedRoute>
+                            }/>
+                            <Route path="/account" element={
+                                <ProtectedRoute>
+                                    <AccountPage/>
+                                </ProtectedRoute>
+                            }/>
+                            <Route path={"/products/:id"} element={<ProductPage/>}/>
 
-                    </Routes>
-                </CartProvider>
-            </AuthProvider>
+                        </Routes>
+                    </CartProvider>
+                </AuthProvider>
+                </Provider>
+            </BrowserRouter>
 
-        </BrowserRouter>
     );
 
 

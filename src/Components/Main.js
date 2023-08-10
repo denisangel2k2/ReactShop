@@ -1,17 +1,19 @@
 import {Button, CartProvider, Product, useFetchProducts} from "./Utils";
 import {useEffect, useState} from "react";
 import {Header, Notification} from "./Header";
+import {useDispatch, useSelector} from "react-redux";
+import {setProds} from "../redux/slices/products";
+import {useAuth} from "./Login";
 
 
-export function FiltersSection({setApi, searchText, setSearchText, setSelectedCategory, setCurrentPage, itemsPerPage, setProducts}) {
+export function FiltersSection({setApi, searchText, setSearchText, setSelectedCategory, setCurrentPage, itemsPerPage}) {
     return (
         <div className="filter-wrapper">
             <div className="filter-section">
                 <p>Categories:</p>
                 <SearchBar setSearchText={setSearchText} searchText={searchText}/>
                 <CategoryDropdown setApi={setApi} setSelectedCategory={setSelectedCategory}
-                                  setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage}
-                setProducts={setProducts}/>
+                                  setCurrentPage={setCurrentPage} itemsPerPage={itemsPerPage}/>
             </div>
         </div>
     );
@@ -42,36 +44,8 @@ function SearchBar({searchText, setSearchText}) {
     );
 }
 
-async function getProductsFromPage(page, itemsPerPage, category) {
-    let api;
-    if (category === '') {
-        api = `https://dummyjson.com/products/?limit=${itemsPerPage}&skip=${(page - 1) * itemsPerPage}`;
-    } else {
-        api = `https://dummyjson.com/products/category/${category}?limit=${itemsPerPage}&skip=${(page - 1) * itemsPerPage}`;
-    }
 
-    let retryCount = 0;
-    const maxRetries = 3;
-
-    while (retryCount < maxRetries) {
-        try {
-            const responseItems = await getItems(api);
-            return responseItems;
-        } catch (error) {
-            if (error.response && error.response.status === 429) {
-                retryCount++;
-                console.log(`Retrying after ${retryCount} attempt(s) due to 429 error...`);
-                await new Promise((resolve) => setTimeout(resolve, 1000 * retryCount)); // Wait for increasing delay
-            } else {
-                throw error;
-            }
-        }
-    }
-
-    throw new Error(`Failed to fetch data after ${maxRetries} attempts.`);
-}
-
-function CategoryDropdown({setApi, setSelectedCategory, itemsPerPage, setCurrentPage,setProducts}) {
+function CategoryDropdown({setApi, setSelectedCategory, itemsPerPage, setCurrentPage}) {
     const categories = [
         "smartphones", "laptops", "fragrances", "skincare", "groceries",
         "home-decoration", "furniture", "tops", "womens-dresses",
@@ -80,21 +54,21 @@ function CategoryDropdown({setApi, setSelectedCategory, itemsPerPage, setCurrent
         "sunglasses", "automotive", "motorcycle", "lighting"
     ];
 
+    // const products = useSelector(state => state.products);
+    const dispatch = useDispatch();
+
     function handleChange(event) {
         const newCategory = event.target.value;
         setSelectedCategory(newCategory);
         //TODO: add categories to local storage
 
         if (newCategory === '') {
-            // setApi(`https://dummyjson.com/products/?limit=${itemsPerPage}`);
             if (!localStorage.getItem("products"))
                 setApi(`https://dummyjson.com/products/?limit=100`);
-            else setProducts(JSON.parse(localStorage.getItem("products")));
-
+            else dispatch(setProds(JSON.parse(localStorage.getItem("products"))));
             document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(100 / itemsPerPage)}`;
         } else {
             setApi(`https://dummyjson.com/products/category/${newCategory}/?limit=${itemsPerPage}`);
-
             document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(5 / itemsPerPage)}`;
         }
         setCurrentPage(1);
@@ -116,10 +90,10 @@ function CategoryDropdown({setApi, setSelectedCategory, itemsPerPage, setCurrent
 
 export function Products({products, isNotificationVisible, setIsNotificationVisible}) {
     if (!products) {
-        // Products haven't been fetched yet, show loading or placeholder
-        return <div>Loading...</div>; // You can customize this message or add a loading spinner
+        return <div>Loading...</div>;
     }
 
+    console.log(products)
     const productElements = products.map((product) => {
         return (
             <Product key={product.id} jsonItem={product} isNotificationVisible={isNotificationVisible}
@@ -134,17 +108,24 @@ export function Products({products, isNotificationVisible, setIsNotificationVisi
     );
 }
 
-async function getProductsForCategory(category, skip) {
-    const api = `https://dummyjson.com/products/category/${category}?limit=3&skip=${skip}`;
+async function getProductsForCategory(category, skip, itemsPerPage, authKey) {
+    let api;
+    if (category === '')
+        api = `https://dummyjson.com/products/?limit=${itemsPerPage}&skip=${skip}`;
+    else api = `https://dummyjson.com/products/category/${category}?limit=${itemsPerPage}&skip=${skip}`;
 
     let retryCount = 0;
-    const maxRetries = 3; // Maximum number of retries
+    const maxRetries = 3;
 
     while (retryCount < maxRetries) {
         try {
             const response = await fetch(api, {
                 method: 'GET',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Internship-Auth': authKey
+
+                },
             });
 
             if (response.ok) {
@@ -171,30 +152,6 @@ export async function getItems(api) {
     return items.products;
 }
 
-export function LoadMoreComponent({selectedCategory, setProducts, products, currentSkip, setCurrentSkip, setApi}) {
-    async function loadMoreProducts() {
-
-        if (selectedCategory !== '')
-            getProductsForCategory(selectedCategory, currentSkip).then(data => {
-                setProducts([...products, ...data.products]);
-                setCurrentSkip(currentSkip + 3);
-            });
-        else {
-            getItems(`https://dummyjson.com/products/?limit=3&skip=${currentSkip}`).then(data => {
-                setProducts([...products, ...data]);
-                setCurrentSkip(currentSkip + 3);
-            });
-        }
-
-
-    }
-
-    return (
-        <div className="pagination-controls">
-            <Button className={'load-more-btn'} onClick={loadMoreProducts} text={'Load more'}/>
-        </div>
-    );
-}
 
 function getProductsFromPageArray(currentPage, itemsPerPage, selectedCategory, products) {
     console.log(currentPage);
@@ -213,9 +170,6 @@ function getProductsFromPageArray(currentPage, itemsPerPage, selectedCategory, p
 }
 
 export function Pagination({
-                               products,
-                               setProducts,
-                               setFilteredProducts,
                                itemsPerPage,
                                setItemsPerPage,
                                currentPage,
@@ -223,36 +177,26 @@ export function Pagination({
                                selectedCategory
                            }) {
 
+    const products = useSelector(state => state.products);
+    const dispatch = useDispatch();
+    const {authKey} = useAuth();
     useEffect(() => {
-
-        let updatedProducts = getProductsFromPageArray(currentPage, itemsPerPage, selectedCategory, products);
-        setFilteredProducts(updatedProducts);
-
-        document.querySelector(".current-page").value = currentPage;
-        if (selectedCategory === '')
-            document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(100 / itemsPerPage)}`;
-        else
-            document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(5 / itemsPerPage)}`;
-
-
-        // getProductsFromPage(currentPage, itemsPerPage, selectedCategory).then(
-        //     data => {
-        //         setFilteredProducts(data)
-        //         document.querySelector(".current-page").value = currentPage;
-        //         if (selectedCategory === '')
-        //             document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(100 / itemsPerPage)}`;
-        //         else
-        //             document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(5 / itemsPerPage)}`;
-        //     }
-        // );
+        getProductsForCategory(selectedCategory, (currentPage - 1) * itemsPerPage, itemsPerPage, authKey).then((json) => {
+            document.querySelector(".current-page").value = currentPage;
+            dispatch(setProds(json.products));
+            if (selectedCategory === '')
+                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(100 / itemsPerPage)}`;
+            else
+                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(5 / itemsPerPage)}`;
+        });
 
 
-    }, [itemsPerPage, currentPage, products])
+    }, [itemsPerPage, currentPage])
 
     function handleNextPage() {
-        const maxPage=selectedCategory===''?Math.ceil(100 / itemsPerPage):Math.ceil(5 / itemsPerPage);
+        const maxPage = selectedCategory === '' ? Math.ceil(100 / itemsPerPage) : Math.ceil(5 / itemsPerPage);
         if (currentPage < maxPage)
-        setCurrentPage(currentPage + 1);
+            setCurrentPage(currentPage + 1);
     }
 
     function handlePreviousPage() {
@@ -292,26 +236,23 @@ export function Pagination({
 export function MainPage() {
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
-    const [api, setApi] = useState(`https://dummyjson.com/products/?limit=100`);
-    const [products, setProducts] = useFetchProducts(api);
+    const [api, setApi] = useState(`https://dummyjson.com/products/?limit=${itemsPerPage}`);
     const [isNotificationVisible, setIsNotificationVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [searchText, setSearchText] = useState('');
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [originalProducts, setOriginalProducts] = useState(products);
+    const products = useSelector(state => state.products);
 
-    //TODO: Useeffect for fetching, use a state that remembers the skip count and another stat that remembers the length of the current fetched items
-    // when the length modifies and gets to 0 then we need to fetch again
-
-
+    const dispatch = useDispatch();
+    useFetchProducts(api);
 
     useEffect(() => {
         let isMounted = true;
+
         async function fetchData() {
             try {
                 let searchedProducts;
                 if (!localStorage.getItem('products'))
-                    searchedProducts = await getItems(`https://dummyjson.com/products?limit=100`);
+                    searchedProducts = await getItems(`https://dummyjson.com/products?limit=${itemsPerPage}`);
                 else searchedProducts = JSON.parse(localStorage.getItem('products'));
 
                 let updatedProducts = searchedProducts.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
@@ -319,7 +260,7 @@ export function MainPage() {
                 const itemFoundOnPage = Math.floor(index / itemsPerPage) + 1;
 
                 if (isMounted) {
-                    setProducts(updatedProducts);
+                    dispatch(setProds(updatedProducts));
                 }
             } catch (error) {
                 console.log(error);
@@ -337,34 +278,31 @@ export function MainPage() {
 
     return (
         <div id="app">
-                <Notification isNotificationVisible={isNotificationVisible}
-                              setIsNotificationVisible={setIsNotificationVisible}
-                              message="Added to cart"/>
-                <Header/>
-                <main>
-                    <FiltersSection setApi={setApi}
-                                    setSearchText={setSearchText}
-                                    setSelectedCategory={setSelectedCategory}
-                                    setCurrentPage={setCurrentPage}
-                                    itemsPerPage={itemsPerPage}
-                                    searchText={searchText}
-                                    setProducts={setProducts}
-                    />
-                    <Products products={filteredProducts}
-                              isNotificationVisible={isNotificationVisible}
-                              setIsNotificationVisible={setIsNotificationVisible}/>
-                </main>
+            <Notification isNotificationVisible={isNotificationVisible}
+                          setIsNotificationVisible={setIsNotificationVisible}
+                          message="Added to cart"/>
+            <Header/>
+            <main>
+                <FiltersSection setApi={setApi}
+                                setSearchText={setSearchText}
+                                setSelectedCategory={setSelectedCategory}
+                                setCurrentPage={setCurrentPage}
+                                itemsPerPage={itemsPerPage}
+                                searchText={searchText}
+                />
+                <Products
+                    products={products}
+                    isNotificationVisible={isNotificationVisible}
+                    setIsNotificationVisible={setIsNotificationVisible}/>
+            </main>
 
             />
-            <Pagination filteredProducts={filteredProducts}
-                        setFilteredProducts={setFilteredProducts}
-                        setProducts={setProducts}
-                        itemsPerPage={itemsPerPage}
-                        setItemsPerPage={setItemsPerPage}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        selectedCategory={selectedCategory}
-                        products={products}
+            <Pagination
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                selectedCategory={selectedCategory}
             />
 
         </div>

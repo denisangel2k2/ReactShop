@@ -2,6 +2,8 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {useAuth} from "./Login";
 import {getCart} from "./CartPage";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setProds} from "../redux/slices/products";
 
 export function Button({className, onClick,text,isButtonDisabled}) {
     return (
@@ -90,15 +92,16 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
 }
 
 export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10'){
-    const [products,setProducts] = useState([]);
+    // const [products,setProducts] = useState([]);
+    const dispatch = useDispatch();
     useEffect(()=>{
         async function fetchProducts() {
             try {
                 const response = await fetch(api);
                 const data = await response.json();
-                setProducts(data.products);
+                dispatch(setProds(data.products));
             } catch (error) {
-                setProducts([]);
+                dispatch(setProds([]));
             }
         }
         fetchProducts();
@@ -106,7 +109,7 @@ export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10
         //     localStorage.setItem('products',JSON.stringify(products));
     },[api]);
 
-    return [products,setProducts];
+    // return [products,setProducts];
 }
 // Cart context
 const cartContext= createContext();
