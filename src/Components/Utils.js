@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {useAuth} from "./Login";
-import {getCart} from "./CartPage";
+import {useAuth} from "./login_page/Login";
+import {getCart} from "./cart_page/CartPage";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setProds} from "../redux/slices/products";
@@ -12,7 +12,6 @@ export function Button({className, onClick,text,isButtonDisabled}) {
 }
 
 const cartId="64d35475afd6c";
-// const cartId="64c38597d8f95";
 
 export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible}){
 
@@ -91,8 +90,9 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
     );
 }
 
+
+
 export function useFetchProducts(api = 'https://dummyjson.com/products/?limit=10'){
-    // const [products,setProducts] = useState([]);
     const dispatch = useDispatch();
     useEffect(()=>{
         async function fetchProducts() {
@@ -138,3 +138,23 @@ export function useCart(){
     return useContext(cartContext);
 }
 //
+
+export function debounce(func, wait, immediate) {
+    let timeout;
+
+    return function executedFunction(...args) {
+        const context = this;
+
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+
+        const callNow = immediate && !timeout;
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+
+        if (callNow) func.apply(context, args);
+    };
+}

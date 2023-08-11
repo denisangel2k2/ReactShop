@@ -52,6 +52,17 @@ body {
     box-sizing: border-box;
 }
 
+.loading-products {
+    position: absolute;
+    min-height: 100vh;
+    top: 50%;
+    left: 50%;
+}
+.loading-icon{
+    font-size:  3rem;
+    color: gray;
+}
+
 #app .notification-container {
     z-index: 10;
     position: fixed;
@@ -65,7 +76,7 @@ body {
     font-weight: bold;
     background: #e1e1e1;
     box-shadow: 1px 2px 10px 1px rgba(0, 0, 0, 0.5);
-    visibility: hidden;
+    visibility: hidden;;
     transition: all 0.3s ease-in-out;
 }
 
@@ -291,7 +302,22 @@ nav{
     margin-top: 0;
     font-size: 0.8rem;
 }
+.item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease-in-out forwards;
+}
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 #app .cart-item {
     background-color: #fafafa;
     width: 97%;
@@ -302,7 +328,9 @@ nav{
     font-size: 0.8rem;
     font-family: 'Nunito', sans-serif;
 }
-
+#app .cart-products > :nth-last-child(2){
+    margin-bottom: 3.4rem;
+}
 #app .cart-products {
     position: relative;
     width: 100%;
@@ -311,15 +339,15 @@ nav{
 #app .cart-total {
     position: absolute;
     bottom: 0;
-    height: 3rem;
+    padding: 0.5rem;
     width: 97%;
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-family: 'Nunito', sans-serif;
     display: flex;
     justify-content: space-between;
-    align-content: center;
     background-color: #fafafa;
     margin: 0.5rem;
+    box-shadow: 3px -10px 10px 1px rgba(0, 0, 0, 0.2);
 }
 
 #app .cart-total p {

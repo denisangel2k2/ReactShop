@@ -1,4 +1,4 @@
-import {useAuth} from "./Login";
+import {useAuth} from "../login_page/Login";
 
 export function AccountPage() {
     const {authKey, email, logout} = useAuth();

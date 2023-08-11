@@ -1,16 +1,6 @@
-import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
-function getProduct(id) {
-    return fetch(`https://dummyjson.com/products/${id}`).then((response) => {
-        return response.json();
-    });
-}
-
-function ProductImages({jsonItem}) {
-
-
-
+export function ProductImages({jsonItem}) {
     let currentImageIndex = 0;
     function showCurrentImage(index) {
         const imagesContainer = document.querySelector(".images");
@@ -78,48 +68,6 @@ function ProductImages({jsonItem}) {
                     <i className="fa-solid fa-chevron-right"></i>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function ProductPageProduct({jsonItem}) {
-    const discountPrice = (jsonItem.price * (1 - jsonItem.discountPercentage / 100)).toFixed(2);
-    return (
-        <div className="product">
-            <ProductImages jsonItem={jsonItem}/>
-            <div className="info">
-                <div className="main-info">
-                    <h1>{jsonItem.title}</h1>
-                    <p>Price: ${discountPrice}</p>
-                </div>
-                <div className="item-section-2">
-                    <p>Rating: {jsonItem.rating}</p>
-                    <p>Stock: {jsonItem.stock}</p>
-                </div>
-
-                <p>{jsonItem.description}</p>
-
-                <div className="item-section-1">
-                    <p>Category: {jsonItem.category}</p>
-                    <p>Brand: {jsonItem.brand}</p>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-export function ProductPage() {
-    const params = useParams();
-    const [item, setItem] = useState(null);
-    useEffect(() => {
-        getProduct(params.id).then((json) => {
-            setItem(json);
-        });
-    }, [params.id]);
-
-    return (
-        <div>
-            {item && <ProductPageProduct jsonItem={item}/>}
         </div>
     );
 }
