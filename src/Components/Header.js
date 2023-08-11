@@ -67,9 +67,8 @@ function CartItems({cart, onMouseOver}) {
         <div className="cart-products" onMouseOver={onMouseOver}>
             {cart['products'] ? (
                 cart.products.map((item) => {
-                    console.log(cart.products.length);
                     return (
-                        <CartProduct jsonItem={item}/>
+                        <CartProduct key={item.id} jsonItem={item}/>
                     );
                 })
             ) : (
