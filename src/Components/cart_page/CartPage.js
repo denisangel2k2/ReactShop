@@ -12,7 +12,7 @@ export function CartPage(){
                         <CartpageProducts/>
                 </div>
                 <div className="checkout-wrapper">
-                    <div className="cartpa ge-total">
+                    <div className="cartpage-total">
                         <div className="total-price">Total: ${
                             cart["discountTotal"] ?
                             cart["discountTotal"].toFixed(2) : 0

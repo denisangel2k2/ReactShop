@@ -31,9 +31,6 @@ export function Product({jsonItem,isNotificationVisible,setIsNotificationVisible
 
     async function addToCart(productId,quantity=1){
 
-        // setCart([...cart,jsonItem]);
-        // localStorage.setItem('cart',JSON.stringify([...cart,jsonItem]));
-
         return await fetch(`https://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`, {
             method: 'POST',
             headers: {

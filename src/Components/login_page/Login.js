@@ -63,7 +63,7 @@ export const AuthProvider = ({children}) => {
         setEmail(email);
         console.log("navigating home")
         try {
-            navigate("/home");
+            navigate("/shop");
         } catch (error) {
             console.error(error);
         }

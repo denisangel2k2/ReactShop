@@ -21,6 +21,7 @@ export function MainPage() {
     const products = useSelector(state => state.products);
     const dispatch = useDispatch();
     const {authKey} = useAuth();
+
     const {
         data: prods,
         isLoading,
@@ -32,10 +33,8 @@ export function MainPage() {
 
     useEffect(() => {
         if (prods) {
-            console.log(selectedCategory, currentPage);
             dispatch(setProds(prods["products"]));
             setFilteredProducts(prods["products"]);
-
         }
     }, [prods]);
 
