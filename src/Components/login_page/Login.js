@@ -1,5 +1,6 @@
 import {createContext, useContext, useMemo, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useCart} from "../Utils";
 
 export function Login() {
     const {login, AUTH_API} = useAuth();
@@ -26,7 +27,7 @@ export function Login() {
             const responseData = await response.json();
 
             if (response.ok) {
-                login(responseData.token,email);
+                login(responseData.token,email,responseData.cartId);
             } else {
                 alert("Login failed. Please check your credentials.");
             }
@@ -55,12 +56,14 @@ const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
     const [authKey, setAuthKey] = useLocalStorage("authKey", null);
     const [email,setEmail]=useLocalStorage("email",null);
+    const [cartId,setCartId]=useLocalStorage("cartId",null);
     const navigate = useNavigate();
-    const [AUTH_API] = useState("http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/login");
+    const [AUTH_API] = useState("http://localhost:3001/login");
 
-    const login = async (token,email) => {
+    const login = async (token,email,cart_id) => {
         setAuthKey(token);
         setEmail(email);
+        setCartId(cart_id);
         console.log("navigating home")
         try {
             navigate("/shop");
@@ -72,13 +75,17 @@ export const AuthProvider = ({children}) => {
     const logout = () => {
         setAuthKey(null);
         setEmail(null);
+        setCartId(null);
+        localStorage.setItem('cart', JSON.stringify(null));
         navigate("/login", {replace: true});
+
     };
 
     const value = useMemo(
         () => ({
             authKey,
             AUTH_API,
+            cartId,
             login,
             logout,
             email

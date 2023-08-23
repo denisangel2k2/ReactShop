@@ -4,7 +4,7 @@ import {ProductImages} from "./ProductImages";
 import {ProductPageProduct} from "./ProductPageProduct";
 
 function getProduct(id) {
-    return fetch(`https://dummyjson.com/products/${id}`).then((response) => {
+    return fetch(`http://localhost:3001/products/${id}`).then((response) => {
         return response.json();
     });
 }

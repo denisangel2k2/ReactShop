@@ -1,5 +1,5 @@
 export function CartProduct({jsonItem}) {
-    const discountedPrice = jsonItem.price * (1 - jsonItem.discountPercentage / 100);
+    const discountedPrice = jsonItem.price * (1 - jsonItem.discountedPercentage / 100);
     const quantity = jsonItem.quantity ? jsonItem.quantity : 1;
     return (
         <div className={"cart-item"}>

@@ -1,4 +1,4 @@
-import {Button, CartProvider, Product, useFetchProducts} from "../Utils";
+
 import {useEffect, useState} from "react";
 import {Header, Notification} from "../header/Header";
 import {useDispatch, useSelector} from "react-redux";
@@ -22,27 +22,22 @@ export function MainPage() {
     const dispatch = useDispatch();
     const {authKey} = useAuth();
 
+
     const {
         data: prods,
         isLoading,
         isFetching,
         isError,
         error
-    } = useGetProductsForCategoryQuery([selectedCategory, (currentPage - 1) * itemsPerPage, itemsPerPage, authKey]);
-
+    } = useGetProductsForCategoryQuery([selectedCategory, (currentPage - 1) * itemsPerPage, itemsPerPage, searchText]);
 
     useEffect(() => {
         if (prods) {
-            dispatch(setProds(prods["products"]));
-            setFilteredProducts(prods["products"]);
+            dispatch(setProds(prods));
+            setFilteredProducts(prods);
         }
     }, [prods]);
 
-
-    useEffect(() => {
-        let filteredProductsSearch = products.filter(product => product.title.toLowerCase().includes(searchText.toLowerCase()));
-        setFilteredProducts(filteredProductsSearch);
-    }, [searchText])
 
     return (
         <div id="app">

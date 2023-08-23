@@ -17,11 +17,14 @@ export function Notification({message, isNotificationVisible, setIsNotificationV
 
 export function Header() {
     const {cart} = useCart();
-    const [cartLength, setCartLength] = useState(cart.length);
+
+    const [cartLength, setCartLength] = useState(0);
     const {authKey} = useAuth();
     useEffect(() => {
-        if (authKey)
+        if (authKey){
             setCartLength(cart.totalQuantity);
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
     }, [cart]);
     return (
         <header>

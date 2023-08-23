@@ -3,7 +3,6 @@ import {CartProvider, useCart} from "../Utils";
 import React, {useEffect, useState} from "react";
 import {CartProduct} from "./CartProduct";
 
-const cartId="64d35475afd6c";
 export function CartPage(){
     const {cart}=useCart();
     return (
@@ -25,24 +24,25 @@ export function CartPage(){
     );
 }
 
-export async function getCart(authKey) {
-    const response = await fetch(`http://vlad-matei.thrive-dev.bitstoneint.com/wp-json/internship-api/v1/cart/${cartId}`, {
+export async function getCart(authKey,cart_id) {
+    const response = await fetch(`http://localhost:3001/cart/${cart_id}`, {
         method: 'GET',
         headers:{
             'Content-Type': 'application/json',
-            'Internship-Auth': authKey
+            "token": authKey
         }
     });
+    console.log("response cart",response);
     const json = await response.json();
     return json;
 }
 function CartpageProducts(){
-    const {authKey}=useAuth();
+    const {authKey,cartId}=useAuth();
     const {cart,setCart}=useCart();
 
 
     useEffect(()=>{
-        getCart(authKey).then((json)=>{
+        getCart(authKey,cartId).then((json)=>{
             setCart(json);
         });
     },[authKey]);

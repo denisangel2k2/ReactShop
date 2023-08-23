@@ -1,5 +1,5 @@
 import './App.css';
-import {CartProvider, useFetchProducts} from "./Components/Utils";
+import {CartProvider} from "./Components/Utils";
 import {
     FiltersSection,
     getItems,

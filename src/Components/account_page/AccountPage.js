@@ -1,9 +1,12 @@
 import {useAuth} from "../login_page/Login";
+import {useCart} from "../Utils";
 
 export function AccountPage() {
     const {authKey, email, logout} = useAuth();
+    const {setCart}=useCart();
     function handleLogout(){
         logout();
+
     }
     return (
 
