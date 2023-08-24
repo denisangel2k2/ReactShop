@@ -95,7 +95,10 @@ body {
 
 nav{
     display: flex;
-
+}
+.home-logo{
+    text-decoration: none;
+    color: black;
 }
 #account{
     font-size: 2.5rem;
@@ -111,7 +114,7 @@ nav{
 
 .account-main{
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 30px;
@@ -430,7 +433,7 @@ nav{
 
 #app .shop-items {
     margin-top: 10rem;
-    margin-left: 11rem;
+    margin-left: 15rem;
     margin-right: calc(8rem + 20px);
     display: flex;
     flex-wrap: wrap;
@@ -710,7 +713,7 @@ main {
     background-color: #dadada;
     font-weight: bold;
     width: 3rem;
-    box-shadow: inset 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 0px 0.5px 1px rgba(0, 0, 0, 0.2);
 }
 
 .cartpage-product-image img {
@@ -721,30 +724,57 @@ main {
     min-height: 10rem;
     max-height: 10rem;
     object-fit: cover;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
     margin-left: 0.2rem;
 }
 
 .cartpage-product-info {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     gap: 0.5rem;
     padding: 0.5rem;
     font-family: 'Roboto', sans-serif;
 }
-
+.cartpage-product-info .price-and-controls{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    font-family: 'Roboto', sans-serif;
+}
+.cartpage-product-info .title-and-description{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    width: 50%;
+    font-family: 'Roboto', sans-serif;
+}
 .cartpage-total {
     display: flex;
     justify-content: flex-end;
+}
+.cartpage-product-info .cartpage-product-description{
+    font-size: 85%;
+    opacity: 0.73;
 }
 
 .cartpage-product-controls .lower-btn, .cartpage-product-controls .higher-btn {
     cursor: pointer;
     padding: 0.1rem;
     transition: all 0.3s ease-in-out;
+}
+.lower-btn::selection{
+    text-decoration: none;
+}
+.higher-btn::selection{
+    text-decoration: none;
 }
 
 .cartpage-product-controls .lower-btn:hover, .cartpage-product-controls .higher-btn:hover {
@@ -755,7 +785,7 @@ main {
     height: 5rem;
     width: 75vw;
     position: absolute;
-    bottom: 0;
+    bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,5 +1,5 @@
 import {createContext, useContext, useMemo, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useCart} from "../Utils";
 
 export function Login() {
@@ -47,6 +47,7 @@ export function Login() {
                 <input type={"password"} name={"password"} id={"password"} placeholder={"Password"}/>
                 <input type="submit"/>
             </form>
+            <Link to={"/register"}>Don't have an account? Register here.</Link>
         </div>
     );
 }
@@ -64,7 +65,6 @@ export const AuthProvider = ({children}) => {
         setAuthKey(token);
         setEmail(email);
         setCartId(cart_id);
-        console.log("navigating home")
         try {
             navigate("/shop");
         } catch (error) {

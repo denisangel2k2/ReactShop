@@ -26,6 +26,7 @@ import {AccountPage} from "./Components/account_page/AccountPage";
 import {ProductPage} from "./Components/product_page/ProductPage";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
+import {Register} from "./Components/register_page/Register";
 
 function App() {
     return (
@@ -37,7 +38,11 @@ function App() {
                         <Routes>
                             <Route path="/shop" element={<MainPage/>}/>
                             <Route path="/" element={<LandingPage/>}/>
-                            <Route path="/login" element={<Login/>}/>
+
+                            <Route path="/login" element={
+                                <ProtectedRouteIfLoggedIn>
+                                    <Login/>
+                                </ProtectedRouteIfLoggedIn>}/>
                             <Route path="/cart" element={
                                 <ProtectedRoute>
                                     <CartPage/>
@@ -49,6 +54,12 @@ function App() {
                                 </ProtectedRoute>
                             }/>
                             <Route path={"/products/:id"} element={<ProductPage/>}/>
+
+                            <Route path="/register" element={
+                                <ProtectedRouteIfLoggedIn>
+                                    <Register/>
+                                </ProtectedRouteIfLoggedIn>}/>
+
 
                         </Routes>
                     </CartProvider>
@@ -68,5 +79,12 @@ export const ProtectedRoute = ({children}) => {
     }
     return children;
 };
+export const ProtectedRouteIfLoggedIn = ({children}) => {
+    const {authKey} = useAuth();
+    if (authKey) {
+        return <Navigate to="/shop"/>;
+    }
+    return children;
+}
 
 export default App;

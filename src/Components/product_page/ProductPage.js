@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ProductImages} from "./ProductImages";
 import {ProductPageProduct} from "./ProductPageProduct";
+import {Header} from "../header/Header";
 
 function getProduct(id) {
     return fetch(`http://localhost:3001/products/${id}`).then((response) => {
@@ -18,7 +19,8 @@ export function ProductPage() {
     }, [params.id]);
 
     return (
-        <div>
+        <div id={"app"}>
+            <Header/>
             {item && <ProductPageProduct jsonItem={item}/>}
         </div>
     );

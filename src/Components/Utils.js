@@ -90,22 +90,40 @@ export function Product({jsonItem, isNotificationVisible, setIsNotificationVisib
 const cartContext = createContext();
 
 export function CartProvider({children}) {
-    const [cart, setCart] = useState([]);
     const {authKey,cartId} = useAuth();
-    useEffect(() => {
-        if (authKey!==null){
-            const localStorageCart= JSON.parse(localStorage.getItem('cart'));
-            if (!localStorageCart) {
-                getCart(authKey,cartId).then((json) => {
-                    setCart(json.products);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                });
-            } else {
-                setCart(JSON.parse(localStorage.getItem('cart')));
-            }
+    const [cart, setCart] = useState(() => {
+        const localStorageCart = JSON.parse(localStorage.getItem('cart'));
+        if (!localStorageCart) {
+            if (authKey)
+            return getCart(authKey,cartId).then((json) => {
+                return json;
+            });
+            else return null;
+        } else {
+            return localStorageCart;
         }
+    });
 
+
+
+    useEffect(() => {
+        if (authKey){
+            getCart(authKey,cartId).then((json) => {
+                setCart(json);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            });
+            // const localStorageCart= JSON.parse(localStorage.getItem('cart'));
+            // if (!localStorageCart) {
+            //     getCart(authKey,cartId).then((json) => {
+            //         setCart(json.products);
+            //         localStorage.setItem('cart', JSON.stringify(cart));
+            //     });
+            // } else {
+            //     setCart(JSON.parse(localStorage.getItem('cart')));
+            // }
+        }
     }, [authKey]);
+
 
     return (
         <cartContext.Provider value={{cart, setCart}}>

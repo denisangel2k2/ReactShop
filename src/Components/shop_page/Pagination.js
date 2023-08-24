@@ -8,12 +8,24 @@ export function Pagination({
                                selectedCategory
                            }) {
 
-    useEffect(() => {
-        if (selectedCategory === '')
-            document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(100 / itemsPerPage)}`;
-        else
-            document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(5 / itemsPerPage)}`;
+    useEffect( () => {
 
+        if (selectedCategory === ''){
+            fetch(`http://localhost:3001/products/number`).then((response) => {
+                return response.json();
+            }).then((json) => {
+                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(Number(json) / itemsPerPage)}`;
+            });
+        }
+        else {
+            fetch(`http://localhost:3001/products/category/${selectedCategory}/number`).then((response) => {
+                return response.json();
+            }).then((json) => {
+                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(Number(json) / itemsPerPage)}`;
+
+            });
+
+        }
 
     }, [itemsPerPage, currentPage,selectedCategory])
 

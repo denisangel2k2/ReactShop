@@ -32,7 +32,7 @@ export async function getCart(authKey,cart_id) {
             "token": authKey
         }
     });
-    console.log("response cart",response);
+
     const json = await response.json();
     return json;
 }
@@ -42,9 +42,11 @@ function CartpageProducts(){
 
 
     useEffect(()=>{
-        getCart(authKey,cartId).then((json)=>{
-            setCart(json);
-        });
+        if (authKey && cart) {
+            getCart(authKey, cartId).then((json) => {
+                setCart(json);
+            });
+        }
     },[authKey]);
 
 

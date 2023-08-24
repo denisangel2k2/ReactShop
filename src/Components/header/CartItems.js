@@ -10,7 +10,7 @@ export function CartItems({cart, onMouseOver}) {
                     );
                 })
             ) : (
-                <p>Loading cart...</p>
+                <p>No items in cart</p>
             )
             }
             <div className="cart-total">Total: ${

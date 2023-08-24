@@ -17,7 +17,6 @@ export function Notification({message, isNotificationVisible, setIsNotificationV
 
 export function Header() {
     const {cart} = useCart();
-
     const [cartLength, setCartLength] = useState(0);
     const {authKey} = useAuth();
     useEffect(() => {
@@ -25,11 +24,12 @@ export function Header() {
             setCartLength(cart.totalQuantity);
             localStorage.setItem('cart', JSON.stringify(cart));
         }
-    }, [cart]);
+    }, [cart,authKey]);
     return (
         <header>
-            <h1>Thrift shop</h1>
-
+            <Link to={"/shop"} className={"home-logo"}>
+                <h1>Thrift shop</h1>
+            </Link>
             <nav>
 
                 <Link to={"/account"} className={"account-link"}>
