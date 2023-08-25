@@ -18,4 +18,23 @@ export const productApiSlice = createApi({
     })
 });
 
+export const ordersApiSlice = createApi({
+    reducerPath: 'ordersApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:3001/orders',
+    }),
+    endpoints: (builder) => ({
+        getOrders: builder.query({
+            query: (authKey) => ({
+                url: `/`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "token": authKey
+                },
+            }),
+        }),
+    })
+});
 export const {useGetProductsForCategoryQuery} = productApiSlice;
+export const {useGetOrdersQuery} = ordersApiSlice;

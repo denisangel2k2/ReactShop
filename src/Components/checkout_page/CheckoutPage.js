@@ -6,7 +6,6 @@ import {getCart} from "../cart_page/CartPage";
 
 export function CheckoutPage() {
     const {cart,setCart} = useCart();
-    const navigate = useNavigate();
     const {authKey, cartId} = useAuth();
 
     function placeOrder(phone, address, firstName, lastName) {
@@ -49,10 +48,10 @@ export function CheckoutPage() {
         placeOrder(phone, address, firstName, lastName).then((response) => {
             if (response.ok) {
                 alert("Order placed successfully.");
-                navigate("/orders");
                 getCart(authKey, cartId).then((json) => {
                     setCart(json);
                 });
+                window.location.href = "/orders";
             } else {
                 alert("Order placement failed.");
             }
