@@ -58,8 +58,9 @@ body {
     top: 50%;
     left: 50%;
 }
-.loading-icon{
-    font-size:  3rem;
+
+.loading-icon {
+    font-size: 3rem;
     color: gray;
 }
 
@@ -93,63 +94,177 @@ body {
     font-weight: 500;
 }
 
-nav{
+nav {
     display: flex;
 }
-.home-logo{
+
+.home-logo {
     text-decoration: none;
     color: black;
 }
-#account{
+
+#account {
     font-size: 2.5rem;
     color: black;
     position: absolute;
     right: 6rem;
     top: 0.7rem;
 }
-#orders{
+
+#orders {
     font-size: 2.5rem;
     color: black;
     position: absolute;
     right: 9rem;
-    top:0.7rem;
+    top: 0.7rem;
 }
-#account:hover, #orders:hover{
+
+.orders-container {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid black;
+    width: 85vw;
+    height: 75vh;
+    display: flex;
+
+
+}
+
+.orders-history {
+    width: 50%;
+    height: 100%;
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.orders-history ::selection {
+    text-decoration: none;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-left: 1rem;
+}
+
+.order-id {
+    font-size: 1rem;
+    font-weight: bold;
+
+}
+
+.order-details {
+    display: flex;
+    gap: 1.3rem;
+    flex-direction: row;
+    opacity: 0.7;
+    max-width: 90%;
+}
+
+.order-products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 50%;
+    overflow-y: scroll;
+    justify-content: center;
+    gap: 0 1rem;
+    overflow-x: hidden;
+}
+
+.order-product {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #e1e1e1;
+    width: 40%;
+}
+
+.order-product img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.order-product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order-products h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#account:hover, #orders:hover {
     transform: scale(1.1);
     transition: all 0.3s ease-in-out;
 }
 
-.account-main{
+.order {
+    width: 100%;
+    min-height: 8rem;
+    display: flex;
+    background: url("https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg");
+    transition: all 0.2s ease-in-out;
+}
+
+.order:hover {
+    opacity: 0.9;
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.account-main {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 30px;
     padding: 1rem 2rem 6rem 2rem;
-    box-shadow: 0px 0px 32px 7px rgba(0,0,0,0.57);
+    box-shadow: 0px 0px 32px 7px rgba(0, 0, 0, 0.57);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.account-main h1{
+.account-main h1 {
     font-size: 3rem;
     margin-bottom: 2rem;
     text-align: center;
 }
-.account-item{
+
+.account-item {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
 }
-.account-item > div:nth-child(2){
+
+.account-item > div:nth-child(2) {
     margin-top: 1rem;
     border: 1px solid black;
     border-radius: 10px;
     padding: 0.5rem;
 }
 
-.logout-btn{
+.logout-btn {
     margin-top: 2rem;
     padding: 0.5rem;
     border-radius: 10px;
@@ -163,18 +278,20 @@ nav{
     width: 30%;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
     transform: scale(1.05);
 }
+
 .landing-container {
     position: relative;
     margin-bottom: 10rem;
 }
 
-.landing-link{
+.landing-link {
     font-size: 1.5rem;
     color: #7c7c7c;
 }
+
 .landing-container h1 {
     color: #fff;
     font-size: 7rem;
@@ -231,7 +348,7 @@ nav{
     display: flex;
     position: fixed;
     top: 0;
-    z-index: 9;
+    z-index: 11;
     justify-content: space-between;
     min-width: 100%;
     background-color: #e8e8e8;
@@ -313,6 +430,7 @@ nav{
     margin-top: 0;
     font-size: 0.8rem;
 }
+
 .item {
     opacity: 0;
     transform: translateY(20px);
@@ -329,6 +447,7 @@ nav{
         transform: translateY(0);
     }
 }
+
 #app .cart-item {
     background-color: #fafafa;
     width: 97%;
@@ -339,9 +458,11 @@ nav{
     font-size: 0.8rem;
     font-family: 'Nunito', sans-serif;
 }
-#app .cart-products > :nth-last-child(2){
+
+#app .cart-products > :nth-last-child(2) {
     margin-bottom: 3.4rem;
 }
+
 #app .cart-products {
     position: relative;
     width: 100%;
@@ -745,7 +866,8 @@ main {
     padding: 0.5rem;
     font-family: 'Roboto', sans-serif;
 }
-.cartpage-product-info .price-and-controls{
+
+.cartpage-product-info .price-and-controls {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -754,7 +876,8 @@ main {
     padding: 0.5rem;
     font-family: 'Roboto', sans-serif;
 }
-.cartpage-product-info .title-and-description{
+
+.cartpage-product-info .title-and-description {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -764,11 +887,13 @@ main {
     width: 50%;
     font-family: 'Roboto', sans-serif;
 }
+
 .cartpage-total {
     display: flex;
     justify-content: flex-end;
 }
-.cartpage-product-info .cartpage-product-description{
+
+.cartpage-product-info .cartpage-product-description {
     font-size: 85%;
     opacity: 0.73;
 }
@@ -778,10 +903,12 @@ main {
     padding: 0.1rem;
     transition: all 0.3s ease-in-out;
 }
-.lower-btn::selection{
+
+.lower-btn::selection {
     text-decoration: none;
 }
-.higher-btn::selection{
+
+.higher-btn::selection {
     text-decoration: none;
 }
 
@@ -823,13 +950,81 @@ main {
     border: 1px solid #2df1f1;
 }
 
-.current-page{
+.checkout-main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10rem;
+    gap: 1rem;
+
+}
+
+.checkout-main-container {
+    width: 60vw;
+
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+hr {
+    margin: 1rem 0;
+}
+
+.checkout-main-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.checkout-main-container form input[type="text"]{
+    padding: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.checkout-main-container legend {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: Roboto, sans-serif;
+}
+
+.checkout-additional-info-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#checkout-submit {
+    width: 25%;
+    margin-left: auto;
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.3s ease-in-out;
+    border-radius: 30px;
+    border: 1px solid black;
+
+}
+
+#checkout-submit:hover {
+    transform: scale(1.1);
+    background-color: #565656;
+    color: linen;
+    border: 1px solid #2df1f1;
+}
+
+.current-page {
     width: 2rem;
 }
-.pagination-keys{
+
+.pagination-keys {
     margin: 0 0.5rem;
 }
-#previous-page,#next-page{
+
+#previous-page, #next-page {
     cursor: pointer;
     padding: 0.3rem;
     transition: all 0.3s ease-in-out;
@@ -838,7 +1033,7 @@ main {
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
 }
 
-#items-per-page{
+#items-per-page {
     cursor: pointer;
     padding: 0.3rem;
     transition: all 0.3s ease-in-out;
@@ -847,12 +1042,14 @@ main {
     box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
     margin-left: 2rem;
 }
-.pagination-controls{
+
+.pagination-controls {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 1rem 0;
 }
+
 footer {
     margin: 2rem 0 0 0;
     background-color: #343434;
@@ -870,7 +1067,7 @@ footer p {
     font-size: 1rem;
 }
 
-.login-container{
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -878,14 +1075,16 @@ footer p {
     margin-top: 10rem;
     gap: 1rem;
 }
-.login-container form{
+
+.login-container form {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 1rem;
 }
-.login-container form input{
+
+.login-container form input {
     padding: 0.5rem;
     border-radius: 10px;
     border: 1px solid black;
@@ -896,7 +1095,7 @@ footer p {
     cursor: pointer;
 }
 
-.cart-link{
+.cart-link {
     color: black;
     text-decoration: none;
 }

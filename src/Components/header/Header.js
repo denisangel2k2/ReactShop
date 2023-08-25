@@ -20,9 +20,9 @@ export function Header() {
     const [cartLength, setCartLength] = useState(0);
     const {authKey} = useAuth();
     useEffect(() => {
-        if (authKey){
+        if (authKey && cart){
             setCartLength(cart.totalQuantity);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            // localStorage.setItem('cart', JSON.stringify(cart));
         }
     }, [cart,authKey]);
     return (

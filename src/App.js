@@ -27,6 +27,8 @@ import {ProductPage} from "./Components/product_page/ProductPage";
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {Register} from "./Components/register_page/Register";
+import {Orders} from "./Components/orders_page/Orders";
+import {CheckoutPage} from "./Components/checkout_page/CheckoutPage";
 
 function App() {
     return (
@@ -54,13 +56,22 @@ function App() {
                                 </ProtectedRoute>
                             }/>
                             <Route path={"/products/:id"} element={<ProductPage/>}/>
-
                             <Route path="/register" element={
                                 <ProtectedRouteIfLoggedIn>
                                     <Register/>
                                 </ProtectedRouteIfLoggedIn>}/>
 
 
+                            <Route path={"/orders"} element={
+                                <ProtectedRoute>
+                                    <Orders/>
+                                </ProtectedRoute>
+                            }/>
+                            <Route path={"/placeorder"} element={
+                                <ProtectedRoute>
+                                    <CheckoutPage/>
+                                </ProtectedRoute>
+                            }/>
                         </Routes>
                     </CartProvider>
                 </AuthProvider>

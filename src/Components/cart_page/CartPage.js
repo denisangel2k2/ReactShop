@@ -2,10 +2,15 @@ import {useAuth} from "../login_page/Login";
 import {CartProvider, useCart} from "../Utils";
 import React, {useEffect, useState} from "react";
 import {CartProduct} from "./CartProduct";
+import {Header} from "../header/Header";
+import {useNavigate} from "react-router-dom";
 
 export function CartPage(){
     const {cart}=useCart();
+    const navigate=useNavigate();
     return (
+        <div id={"app"}>
+            <Header/>
             <div className="main-content">
                 <div className="main-container">
                         <CartpageProducts/>
@@ -18,9 +23,13 @@ export function CartPage(){
                         }</div>
                     </div>
 
-                    <button className="checkout-button">Check out</button>
+
+                    <button className="checkout-button" onClick={()=>{
+                        navigate("/placeorder");
+                    }}>Check out</button>
                 </div>
             </div>
+        </div>
     );
 }
 
@@ -41,13 +50,13 @@ function CartpageProducts(){
     const {cart,setCart}=useCart();
 
 
-    useEffect(()=>{
-        if (authKey && cart) {
-            getCart(authKey, cartId).then((json) => {
-                setCart(json);
-            });
-        }
-    },[authKey]);
+    // useEffect(()=>{
+    //     if (authKey && cart) {
+    //         getCart(authKey, cartId).then((json) => {
+    //             setCart(json);
+    //         });
+    //     }
+    // },[authKey]);
 
 
     return(

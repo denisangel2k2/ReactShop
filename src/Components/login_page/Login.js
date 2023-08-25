@@ -76,7 +76,7 @@ export const AuthProvider = ({children}) => {
         setAuthKey(null);
         setEmail(null);
         setCartId(null);
-        localStorage.setItem('cart', JSON.stringify(null));
+        // localStorage.setItem('cart', JSON.stringify(null));
         navigate("/login", {replace: true});
 
     };

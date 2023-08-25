@@ -10,12 +10,12 @@ export function CartProduct({jsonItem}) {
         if (Number(jsonItem.quantity) + quantity <= 0) {
             deleteProduct(productId, cartId).then((json) => {
                 setCart(json);
-                localStorage.setItem('cart', JSON.stringify(json));
+                // localStorage.setItem('cart', JSON.stringify(json));
             });
         } else {
             updateQuantity(productId, quantity, cartId).then((json) => {
                 setCart(json);
-                localStorage.setItem('cart', JSON.stringify(json));
+                // localStorage.setItem('cart', JSON.stringify(json));
 
             });
         }
