@@ -1,36 +1,51 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 export function Pagination({
                                itemsPerPage,
                                setItemsPerPage,
                                currentPage,
                                setCurrentPage,
-                               selectedCategory
+                               selectedCategory,
+                               searchText
                            }) {
 
-    useEffect( () => {
+    const [maxPage, setMaxPage] = useState(1);
+    useEffect(() => {
 
-        if (selectedCategory === ''){
-            fetch(`http://localhost:3001/products/number`).then((response) => {
+        if (searchText != '') {
+            fetch(`http://localhost:3001/products/title/${searchText}/number`).then((response) => {
                 return response.json();
             }).then((json) => {
-                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(Number(json) / itemsPerPage)}`;
+                const _maxPage = Math.ceil(Number(json) / itemsPerPage);
+                setMaxPage(_maxPage);
+                document.querySelector(".pages-count").innerHTML = ` / ${_maxPage}`;
             });
+        } else {
+
+            if (selectedCategory === '') {
+                fetch(`http://localhost:3001/products/number`).then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    const _maxPage = Math.ceil(Number(json) / itemsPerPage);
+                    setMaxPage(_maxPage);
+                    document.querySelector(".pages-count").innerHTML = ` / ${_maxPage}`;
+                });
+            } else {
+                fetch(`http://localhost:3001/products/category/${selectedCategory}/number`).then((response) => {
+                    return response.json();
+                }).then((json) => {
+                    const _maxPage = Math.ceil(Number(json) / itemsPerPage);
+                    setMaxPage(_maxPage);
+                    document.querySelector(".pages-count").innerHTML = ` / ${_maxPage}`;
+
+                });
+            }
         }
-        else {
-            fetch(`http://localhost:3001/products/category/${selectedCategory}/number`).then((response) => {
-                return response.json();
-            }).then((json) => {
-                document.querySelector(".pages-count").innerHTML = ` / ${Math.ceil(Number(json) / itemsPerPage)}`;
 
-            });
 
-        }
-
-    }, [itemsPerPage, currentPage,selectedCategory])
+    }, [itemsPerPage, currentPage, selectedCategory, searchText])
 
     function handleNextPage() {
-        const maxPage = selectedCategory === '' ? Math.ceil(100 / itemsPerPage) : Math.ceil(5 / itemsPerPage);
         if (currentPage < maxPage)
             setCurrentPage(currentPage + 1);
     }

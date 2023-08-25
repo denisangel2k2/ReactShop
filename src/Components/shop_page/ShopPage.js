@@ -64,7 +64,9 @@ export function MainPage() {
                 setItemsPerPage={setItemsPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                selectedCategory={selectedCategory}/>
+                selectedCategory={selectedCategory}
+                searchText={searchText}
+            />
 
 
         </div>

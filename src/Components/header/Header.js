@@ -37,6 +37,9 @@ export function Header() {
                     </div>
                 </Link>
 
+                <Link to={"/orders"} className={"order-link"}>
+                    <div id="orders" className="fa-solid fa-truck-fast"></div>
+                </Link>
 
                 <Cart count={cartLength}/>
 
