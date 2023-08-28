@@ -13,9 +13,9 @@ export function CheckoutPage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                "token": authKey
             },
             body: JSON.stringify({
-                "token": authKey,
                 "phone": phone,
                 "address": address,
                 "firstName": firstName,

@@ -6,7 +6,24 @@ export function AccountPage() {
     const {authKey, email, logout} = useAuth();
     const {setCart}=useCart();
     function handleLogout(){
-        logout();
+
+        fetch(`http://localhost:3001/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'token': authKey
+            }
+        }).then((response)=>{
+            if(response.ok){
+                logout();
+            }
+            else{
+                alert("An error occurred while logging out.");
+            }
+        }).catch((error)=>{
+            alert("An error occurred while logging out.");
+        });
+
     }
     return (
         <div id="app">

@@ -33,10 +33,10 @@ export function Product({jsonItem, isNotificationVisible, setIsNotificationVisib
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'token': authKey
             },
             body: JSON.stringify({
-                "products": [{"id": productId, "quantity": quantity}],
-                "token": authKey
+                "products": [{"id": productId, "quantity": quantity}]
             }),
         }).then(response => response.json()).then((json) => {
             return json;

@@ -39,8 +39,9 @@ export function CartProduct({jsonItem}) {
         return fetch(`http://localhost:3001/cart/${cartId}`, {
             method: 'DELETE', headers: {
                 'Content-Type': 'application/json',
+                "token": authKey
             }, body: JSON.stringify({
-                "token": authKey, "product_id": productId
+                "product_id": productId
             })
         }).then(response => response.json()).then((json) => {
             return json;
@@ -51,8 +52,9 @@ export function CartProduct({jsonItem}) {
         return await fetch(`http://localhost:3001/cart/${cartId}`, {
             method: 'PUT', headers: {
                 'Content-Type': 'application/json',
+                "token": authKey
             }, body: JSON.stringify({
-                "products": [{"id": productId, "quantity": quantity}], "token": authKey
+                "products": [{"id": productId, "quantity": quantity}]
             }),
         }).then(response => response.json()).then((json) => {
             return json;
