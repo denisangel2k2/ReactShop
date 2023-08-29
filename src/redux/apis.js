@@ -36,5 +36,44 @@ export const ordersApiSlice = createApi({
         }),
     })
 });
+
+export const reviewsApiSlice = createApi({
+    reducerPath: 'reviewsApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:3001/reviews',
+    }),
+    tagTypes: ['Reviews'],
+    endpoints: (build) => ({
+        getReviews: build.query({
+            query: (productId) => ({
+                url: `/product/${productId}`,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }),
+            providesTags: ['Reviews']
+        }),
+        addReview: build.mutation({
+            query: ([productId,rating,comment,title,token]) => ({
+                url: `/add`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "token": JSON.parse(token)
+                },
+                body: {
+                    productId: productId,
+                    rating: rating,
+                    comment: comment,
+                    title: title,
+                }
+            }),
+            invalidatesTags: ['Reviews']
+        }),
+    })
+});
+
 export const {useGetProductsForCategoryQuery} = productApiSlice;
 export const {useGetOrdersQuery} = ordersApiSlice;
+export const {useGetReviewsQuery,useAddReviewMutation} = reviewsApiSlice;

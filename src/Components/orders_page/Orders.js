@@ -6,8 +6,8 @@ import {useGetOrdersQuery} from "../../redux/apis";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
-export function Orders(){
-    const {authKey}=useAuth();
+export function Orders() {
+    const {authKey} = useAuth();
     const {
         data: orders,
         isLoading,
@@ -16,7 +16,7 @@ export function Orders(){
         error
     } = useGetOrdersQuery(authKey);
 
-    const [currentOrder,setCurrentOrder]=useState(null);
+    const [currentOrder, setCurrentOrder] = useState(null);
 
     return (
         <div id={"app"}>
@@ -24,27 +24,29 @@ export function Orders(){
 
 
             <div className={"orders-main-title"}>
-                <div className={"orders-titles"}>
-                    <p>Your order history</p>
-                    <p>Order products</p>
-                </div>
                 <div className={"orders-container"}>
 
-                    <div className={"orders-history"}>
-                        {
-                            orders && orders.map((item)=>(
-                                <Order key={item._id} jsonItem={item} setCurrentOrder={setCurrentOrder}/>
-                            ))
-                        }
+                    <div className={"orders-history-container"}>
+                        <p>Your order history</p>
+                        <div className={"orders-history"}>
+                            {
+                                orders && orders.map((item) => (
+                                    <Order key={item._id} jsonItem={item} setCurrentOrder={setCurrentOrder}/>
+                                ))
+                            }
+                        </div>
                     </div>
-                    <div className={"order-products"}>
-                        {
-                            currentOrder &&
-                            currentOrder.cart.products.map((item)=>(
-                                <OrderProduct key={item._id} jsonItem={item}/>
-                            ))
-                        }
+                    <div className={"orders-products-container"}>
+                        <p>Order products</p>
+                        <div className={"order-products"}>
+                            {
+                                currentOrder &&
+                                currentOrder.cart.products.map((item) => (
+                                    <OrderProduct key={item._id} jsonItem={item}/>
+                                ))
+                            }
 
+                        </div>
                     </div>
                 </div>
             </div>

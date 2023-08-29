@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {ProductImages} from "./ProductImages";
 import {ProductPageProduct} from "./ProductPageProduct";
 import {Header} from "../header/Header";
+import {ProductReviews} from "./ProductReviews";
 
 function getProduct(id) {
     return fetch(`http://localhost:3001/products/${id}`).then((response) => {
@@ -21,7 +22,11 @@ export function ProductPage() {
     return (
         <div id={"app"}>
             <Header/>
-            {item && <ProductPageProduct jsonItem={item}/>}
+            <div className={"product-page-container"}>
+                {item && <ProductPageProduct jsonItem={item}/>}
+                <ProductReviews id={params.id}/>
+            </div>
+
         </div>
     );
 }
