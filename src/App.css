@@ -452,7 +452,7 @@ nav {
 }
 
 #app .cart-item-title, #app .cart-item-count {
-    font-size: 0.93rem;
+    font-size: 1rem;
     margin-left: 10px;
 }
 
@@ -566,7 +566,7 @@ nav {
     display: flex;
     gap: 1rem;
     flex-direction: column;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     white-space: nowrap;
     background-color: white;
 }
@@ -616,6 +616,7 @@ nav {
 #app .item {
     border: 1px solid #bebebe;
     overflow: hidden;
+    background-color: white;
 }
 
 #app .item_thumbnail {
@@ -722,6 +723,7 @@ nav {
 body {
     marrgin: 0;
     overflow-x: hidden;
+    background: url("https://img.freepik.com/premium-photo/white-abstract-paint-background_108128-275.jpg");
 }
 
 .product {
@@ -800,6 +802,17 @@ body {
     transition: all 0.3s ease-in-out;
     margin: 1rem 1rem 0.45rem 1rem;
 }
+.delete-review-btn{
+    border-radius: 30px;
+    padding: 0.3rem;
+    margin-left: 1rem;
+    margin-top: 0.6rem;
+    transition: all 0.3s ease-in-out;
+}
+.delete-review-btn:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
 .product-reviews-container{
     height: 80%;
     width: 100%;
@@ -845,6 +858,7 @@ body {
     border-radius:  0 30px 0 30px;
     animation: slowFadeIn 2s ease-in-out;
 }
+
 .product-review-header{
     display: flex;
     justify-content: space-between;
@@ -965,7 +979,7 @@ h1 {
 }
 
 p {
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     margin-left: 1rem;
     margin-bottom: 0;
@@ -1211,6 +1225,24 @@ hr {
     border: 1px solid #2df1f1;
 }
 
+.buy-notification{
+    background-color: red;
+    height: 8rem;
+    width: 25rem;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.buy-notification .image{
+    background-color: #61dafb;
+    height: 6.5rem;
+    width: 6.5rem;
+    margin-left: 0.6rem;
+}
 .current-page {
     width: 2rem;
 }

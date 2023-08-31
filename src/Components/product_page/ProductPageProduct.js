@@ -8,7 +8,7 @@ export function ProductPageProduct({jsonItem}) {
             <div className="info">
                 <div className="main-info">
                     <h1>{jsonItem.title}</h1>
-                    <p>Price: ${discountPrice}</p>
+                    <p>${discountPrice}</p>
                 </div>
                 <div className="item-section-2">
                     <p>Rating: {jsonItem.rating}</p>

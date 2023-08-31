@@ -12,6 +12,7 @@ export function ProductReviews({id}) {
     const [reviewScore, setReviewScore] = useState(0);
     const [reviewText, setReviewText] = useState("");
 
+
     async function addReviewHandler() {
         // debugger;
         const token = localStorage.getItem("authKey");
@@ -23,7 +24,7 @@ export function ProductReviews({id}) {
             }
         })
             .catch((err) => {
-                alert("Error adding review!"+err);
+                alert("Error adding review!" + err);
 
             });
     }
@@ -59,8 +60,9 @@ export function ProductReviews({id}) {
     );
 }
 
-const DelayedProductReview = ({jsonItem, index}) => {
+const DelayedProductReview = ({jsonItem, index, userScrolled}) => {
     const [showReview, setShowReview] = useState(false);
+
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -71,6 +73,7 @@ const DelayedProductReview = ({jsonItem, index}) => {
                 top: scrollToHeight,
                 behavior: "smooth"
             });
+
 
         }, 1000 * index);
 

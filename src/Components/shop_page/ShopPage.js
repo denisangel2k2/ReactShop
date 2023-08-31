@@ -10,6 +10,7 @@ import {Pagination} from "./Pagination";
 import {Products} from "./Products";
 import {FiltersSection} from "./FilterSection";
 import {LoadingProducts} from "../Loading";
+import {BuyNotification} from "./BuyNotification";
 
 export function MainPage() {
     const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -56,6 +57,7 @@ export function MainPage() {
                         isNotificationVisible={isNotificationVisible}
                         setIsNotificationVisible={setIsNotificationVisible}/>
                 }
+                {/*<BuyNotification/>*/}
             </main>
 
             />
